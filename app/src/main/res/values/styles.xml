@@ -35,8 +35,15 @@
     <style name="textFunctionSection">
         <item name="android:textSize">@dimen/text_size_extra_large</item>"
         <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/textPrimaryOnSurface</item>
+        <item name="android:textColor">@color/on_surface</item>
         <item name="android:gravity">center</item>
         <item name="backgroundTint">@android:color/transparent</item>
+    </style>
+    <style name="sectionCardView">
+        <item name="cardBackgroundColor">@color/surface</item>
+        <item name="android:layout_width">@dimen/functionSection</item>
+        <item name="android:layout_height">@dimen/functionSection</item>
+        <item name="android:layout_marginTop">32dp</item>
+        <item name="cardCornerRadius">20dp</item>
     </style>
 </resources>

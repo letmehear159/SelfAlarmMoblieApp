@@ -8,11 +8,166 @@
     tools:context=".MainActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="387dp"
-        android:layout_height="730dp"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="0dp">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/homeCard"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginTop="1dp"
+            android:orientation="horizontal"
+            app:strokeWidth="0dp"
+            app:cardCornerRadius="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:backgroundTint="@color/surface">
+
+                <ImageView
+                    android:id="@+id/homeImgView"
+                    android:layout_width="118dp"
+                    android:layout_height="77dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="@android:color/transparent"
+                    android:src="@drawable/home" />
+
+                <TextView
+                    android:id="@+id/textView"
+                    style="@style/TextTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:backgroundTint="@android:color/transparent"
+                    android:text="HOME" />
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/musicCardView"
+            android:layout_width="@dimen/functionSection"
+            android:layout_height="@dimen/functionSection"
+            android:layout_marginTop="32dp"
+            app:cardBackgroundColor="@android:color/transparent"
+            app:cardCornerRadius="20dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/homeCard">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:backgroundTint="@color/surface">
+
+                <ImageView
+                    android:layout_width="@dimen/functionImageView"
+                    style="@style/functionImageViewStyle"
+                    app:srcCompat="@drawable/music_player" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_alignParentBottom="true"
+                    android:text="Music"
+                    style="@style/textFunctionSection"
+                    android:layout_height="wrap_content">
+
+                </TextView>
+            </RelativeLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/AlarmCardView"
+            android:layout_width="@dimen/functionSection"
+            android:layout_height="@dimen/functionSection"
+            android:layout_marginTop="32dp"
+            app:cardBackgroundColor="@android:color/transparent"
+            app:cardCornerRadius="20dp"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/homeCard">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:backgroundTint="@color/surface">
+                <ImageView
+                    android:layout_width="@dimen/functionImageView"
+                    style="@style/functionImageViewStyle"
+                    app:srcCompat="@drawable/notification" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_alignParentBottom="true"
+                    android:text="Alarm"
+                    style="@style/textFunctionSection"
+                    android:layout_height="wrap_content"/>
+            </RelativeLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/phoneCardView"
+            android:layout_width="@dimen/functionSection"
+            android:layout_height="@dimen/functionSection"
+            android:layout_marginTop="32dp"
+            app:cardBackgroundColor="@android:color/transparent"
+            app:cardCornerRadius="20dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/musicCardView">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:backgroundTint="@color/surface">
+                <ImageView
+                    android:layout_width="@dimen/functionImageView"
+                    style="@style/functionImageViewStyle"
+                    app:srcCompat="@drawable/phone_call" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_alignParentBottom="true"
+                    android:text="Phone Call"
+                    style="@style/textFunctionSection"
+                    android:layout_height="wrap_content"/>
+            </RelativeLayout>
+
+        </androidx.cardview.widget.CardView>
+        <androidx.cardview.widget.CardView
+            android:id="@+id/messageCardView"
+            android:layout_width="@dimen/functionSection"
+            android:layout_height="@dimen/functionSection"
+            android:layout_marginTop="32dp"
+            app:cardBackgroundColor="@android:color/transparent"
+            app:cardCornerRadius="20dp"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/AlarmCardView">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:backgroundTint="@color/surface">
+                <ImageView
+                    android:layout_width="@dimen/functionImageView"
+                    style="@style/functionImageViewStyle"
+                    app:srcCompat="@drawable/speech_bubble" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_alignParentBottom="true"
+                    android:text="Message"
+                    style="@style/textFunctionSection"
+                    android:layout_height="wrap_content"/>
+            </RelativeLayout>
+
+        </androidx.cardview.widget.CardView>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

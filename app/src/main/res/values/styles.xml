@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="TextSmall">
+        <item name="android:textSize">@dimen/text_size_small</item>
+        <item name="android:textColor">#E0E0E0</item>
+    </style>
+
+    <style name="TextMedium">
+        <item name="android:textSize">@dimen/text_size_medium</item>
+        <item name="android:textColor">#E0E0E0</item>
+    </style>
+
+    <style name="TextLarge">
+        <item name="android:textSize">@dimen/text_size_large</item>
+        <item name="android:textColor">#E0E0E0</item>
+    </style>
+
+    <style name="TextTitle">
+        <item name="android:textSize">@dimen/text_size_title</item>
+        <item name="android:textColor">@color/textPrimaryOnSurface</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextSubtitle">
+        <item name="android:textSize">@dimen/text_size_subtitle</item>
+        <item name="android:textColor">#B0B0B0</item>
+    </style>
+    <style name="functionImageViewStyle">
+        <item name="android:layout_width">@dimen/functionImageView</item>
+        <item name="android:layout_height">@dimen/functionImageView</item>
+        <item name="android:backgroundTint">@android:color/transparent</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:layout_centerHorizontal">true</item>
+    </style>
+    <style name="textFunctionSection">
+        <item name="android:textSize">@dimen/text_size_extra_large</item>"
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/textPrimaryOnSurface</item>
+        <item name="android:gravity">center</item>
+        <item name="backgroundTint">@android:color/transparent</item>
+    </style>
+</resources>

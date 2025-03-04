@@ -54,4 +54,9 @@
         <item name="android:textStyle">bold</item>
         <item name="backgroundTint">@android:color/transparent</item>
     </style>
+    <style name="textOption">
+        <item name="android:textSize">@dimen/text_size_large</item>
+        <item name="android:textColor">@color/primaryText</item>
+        <item name="android:textStyle">bold</item>
+    </style>
 </resources>

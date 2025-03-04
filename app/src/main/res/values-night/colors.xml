@@ -10,4 +10,5 @@
     <color name="background">#121212</color>
     <color name="surface">#1E1E1E</color>
     <color name="on_surface">#E0E0E0</color>
+    <color name="primaryText">#DD8B0D</color>"
 </resources>

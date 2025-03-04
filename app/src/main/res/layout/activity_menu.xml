@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
-    tools:context=".MainActivity">
+    tools:context=".MenuActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -21,7 +21,7 @@
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/homeCard"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="70dp"
             android:layout_marginTop="1dp"
             android:orientation="horizontal"
             app:strokeWidth="0dp"
@@ -39,7 +39,7 @@
                 <ImageView
                     android:id="@+id/homeImgView"
                     android:layout_width="118dp"
-                    android:layout_height="77dp"
+                    android:layout_height="match_parent"
                     android:layout_gravity="center_vertical"
                     android:background="@android:color/transparent"
                     android:src="@drawable/home" />

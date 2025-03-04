@@ -7,18 +7,20 @@
 
     <style name="TextMedium">
         <item name="android:textSize">@dimen/text_size_medium</item>
-        <item name="android:textColor">#E0E0E0</item>
+        <item name="android:textColor">@color/on_surface</item>
     </style>
 
     <style name="TextLarge">
         <item name="android:textSize">@dimen/text_size_large</item>
-        <item name="android:textColor">#E0E0E0</item>
+        <item name="android:textColor">@color/on_surface</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="TextTitle">
         <item name="android:textSize">@dimen/text_size_title</item>
-        <item name="android:textColor">@color/textPrimaryOnSurface</item>
+        <item name="android:textColor">@color/on_surface</item>
         <item name="android:textStyle">bold</item>
+        <item name="backgroundTint">@android:color/transparent</item>
     </style>
 
     <style name="TextSubtitle">
@@ -45,5 +47,11 @@
         <item name="android:layout_height">@dimen/functionSection</item>
         <item name="android:layout_marginTop">32dp</item>
         <item name="cardCornerRadius">20dp</item>
+    </style>
+    <style name="TextTime">
+        <item name="android:textSize">@dimen/text_size_time</item>
+        <item name="android:textColor">@color/on_surface</item>
+        <item name="android:textStyle">bold</item>
+        <item name="backgroundTint">@android:color/transparent</item>
     </style>
 </resources>

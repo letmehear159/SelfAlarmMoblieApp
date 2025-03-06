@@ -33,4 +33,8 @@ public class MenuActivity extends AppCompatActivity {
         Intent intent = new Intent(this, MessageActivity.class);
         startActivity(intent);
     }
+    public void switchToMusic(View view) {
+        Intent intent = new Intent(this, MusicActivity.class);
+        startActivity(intent);
+    }
 }

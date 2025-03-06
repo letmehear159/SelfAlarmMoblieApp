@@ -136,6 +136,7 @@
         <androidx.cardview.widget.CardView
             android:id="@+id/messageCardView"
             style="@style/sectionCardView"
+            android:onClick="switchToMessage"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/AlarmCardView">
 

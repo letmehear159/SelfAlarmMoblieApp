@@ -28,4 +28,8 @@ public class MenuActivity extends AppCompatActivity {
         Intent intent = new Intent(this, AlarmActivity.class);
         startActivity(intent);
     }
+    public void switchToMusic(View view) {
+        Intent intent = new Intent(this, MusicActivity.class);
+        startActivity(intent);
+    }
 }

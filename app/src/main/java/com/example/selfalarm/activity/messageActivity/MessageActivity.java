@@ -1,8 +1,8 @@
-package com.example.selfalarm;
+package com.example.selfalarm.activity.messageActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
+
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
@@ -13,6 +13,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+
+import com.example.selfalarm.R;
 
 public class MessageActivity extends AppCompatActivity {
     private RecyclerView recyclerView;

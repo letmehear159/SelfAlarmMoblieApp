@@ -1,4 +1,4 @@
-package com.example.selfalarm;
+package com.example.selfalarm.activity.messageActivity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,6 +9,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.selfalarm.R;
 
 import java.util.List;
 

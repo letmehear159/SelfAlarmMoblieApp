@@ -37,7 +37,7 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
             int desiredHeight = screenHeight / 2;
 
 //            behavior.setPeekHeight(desiredHeight / 2); // Chiều cao khi thu gọn (25% màn hình chẳng hạn)
-            behavior.setMaxHeight(screenHeight*7/8);       // Chiều cao tối đa là toàn màn hình
+            behavior.setMaxHeight(screenHeight*10/11);       // Chiều cao tối đa là toàn màn hình
             behavior.setState(BottomSheetBehavior.STATE_EXPANDED); // Mở rộng hoàn toàn
 
 // Đảm bảo layout mở rộng đúng cách

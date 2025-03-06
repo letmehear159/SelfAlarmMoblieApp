@@ -1,4 +1,4 @@
-package com.example.selfalarm;
+package com.example.selfalarm.activity.musicActivity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
@@ -9,6 +9,9 @@ import android.os.Handler;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
+
+import com.example.selfalarm.R;
+
 import java.io.File;
 import java.util.concurrent.TimeUnit;
 

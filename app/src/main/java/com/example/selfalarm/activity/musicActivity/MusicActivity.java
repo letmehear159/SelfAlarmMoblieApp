@@ -1,4 +1,4 @@
-package com.example.selfalarm;
+package com.example.selfalarm.activity.musicActivity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -10,6 +10,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+
+import com.example.selfalarm.R;
 
 import java.io.IOException;
 import java.util.ArrayList;

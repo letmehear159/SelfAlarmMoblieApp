@@ -1,4 +1,4 @@
-package com.example.selfalarm;
+package com.example.selfalarm.activity.musicActivity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,6 +14,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.selfalarm.R;
 
 public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.ViewHolder> {
 

@@ -1,4 +1,4 @@
-package com.example.selfalarm;
+package com.example.selfalarm.activity.musicActivity;
 
 import android.media.MediaPlayer;
 

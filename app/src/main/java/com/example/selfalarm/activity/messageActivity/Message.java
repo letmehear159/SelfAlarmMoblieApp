@@ -1,4 +1,4 @@
-package com.example.selfalarm;
+package com.example.selfalarm.activity.messageActivity;
 
 public class Message {
     private String sender;

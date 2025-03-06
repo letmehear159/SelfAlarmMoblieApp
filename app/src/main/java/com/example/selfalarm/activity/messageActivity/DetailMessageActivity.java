@@ -1,13 +1,6 @@
-package com.example.selfalarm;
+package com.example.selfalarm.activity.messageActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.TextView;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import java.util.ArrayList;
-import java.util.List;
 
 
 import androidx.activity.EdgeToEdge;
@@ -15,6 +8,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+
+import com.example.selfalarm.R;
 
 public class DetailMessageActivity extends AppCompatActivity {
 //    private TextView tvTitle;

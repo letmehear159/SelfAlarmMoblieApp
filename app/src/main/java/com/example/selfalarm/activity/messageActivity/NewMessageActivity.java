@@ -1,14 +1,14 @@
-package com.example.selfalarm;
+package com.example.selfalarm.activity.messageActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+
+import com.example.selfalarm.R;
 
 public class NewMessageActivity extends AppCompatActivity {
     @Override

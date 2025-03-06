@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">SelfAlarm</string>
+    <string name="contacts_tab">Danh bạ</string>
+    <string name="call_history_tab">Lịch sử cuộc gọi</string>
+    <string name="add_contact">Thêm danh bạ</string>
+    <string name="search_contacts">Tìm kiếm danh bạ</string>
+    <string name="all_calls">Tất cả</string>
+    <string name="missed_calls">Cuộc gọi nhỡ</string>
+    <string name="incoming_calls">Cuộc gọi đến</string>
+    <string name="outgoing_calls">Cuộc gọi đi</string>
+    <string name="save_contact">Lưu danh bạ</string>
+    <string name="add_photo">Nhấn để thêm ảnh</string>
+    <string name="fab">test</string>
+
 </resources>

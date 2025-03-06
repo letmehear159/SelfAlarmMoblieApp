@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="toolbar" type="id" />
+    <item name="tabs" type="id" />
+    <item name="viewpager" type="id" />
+    <item name="fab" type="id" />
+    <item name="search_layout" type="id" />
+    <item name="search_contacts" type="id" />
+    <item name="contacts_list" type="id" />
+    <item name="call_filter_chips" type="id" />
+    <item name="chip_all_calls" type="id" />
+    <item name="chip_missed_calls" type="id" />
+    <item name="chip_outgoing_calls" type="id" />
+    <item name="chip_incoming_calls" type="id" />
+    <item name="call_history_list" type="id" />
+    <item name="contact_photo" type="id" />
+    <item name="photo_hint" type="id" />
+    <item name="name_layout" type="id" />
+    <item name="input_name" type="id" />
+    <item name="phone_layout" type="id" />
+    <item name="input_phone" type="id" />
+    <item name="email_layout" type="id" />
+    <item name="input_email" type="id" />
+    <item name="address_layout" type="id" />
+    <item name="input_address" type="id" />
+    <item name="btn_save_contact" type="id" />
+    <item name="contact_avatar" type="id" />
+    <item name="contact_name" type="id" />
+    <item name="contact_phone" type="id" />
+    <item name="btn_call" type="id" />
+    <item name="btn_call_back" type="id" />
+</resources>

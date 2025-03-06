@@ -28,4 +28,9 @@ public class MenuActivity extends AppCompatActivity {
         Intent intent = new Intent(this, AlarmActivity.class);
         startActivity(intent);
     }
+
+    public void switchToMessage(View view) {
+        Intent intent = new Intent(this, MessageActivity.class);
+        startActivity(intent);
+    }
 }

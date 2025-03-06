@@ -21,6 +21,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".AlarmActivity" />
+        <activity android:name=".MessageActivity" />
+        <activity android:name=".NewMessageActivity" />
+        <activity android:name=".DetailMessageActivity" />
     </application>
 
 </manifest>

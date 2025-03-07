@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/backgroundColor"
+    android:padding="16dp">
+
+    <!-- Nút quay lại -->
+    <ImageButton
+        android:id="@+id/back_button"
+        android:layout_width="78dp"
+        android:layout_height="48dp"
+        android:layout_marginEnd="308dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="Quay Lại"
+        android:scaleType="centerInside"
+        android:src="@drawable/back"
+        app:tint="@color/iconColor"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Hiển thị số đã quay -->
+    <TextView
+        android:id="@+id/dialed_number"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:textColor="@color/textColorPrimary"
+        android:textSize="28sp"
+        app:layout_constraintEnd_toStartOf="@id/backspace_button"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/back_button"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Nút xóa -->
+    <ImageButton
+        android:id="@+id/backspace_button"
+        android:layout_width="78dp"
+        android:layout_height="48dp"
+        android:layout_marginEnd="8dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="Xóa"
+        android:scaleType="centerInside"
+        android:src="@drawable/delete"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Lưới bàn phím -->
+    <GridLayout
+        android:id="@+id/keypad_grid"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:columnCount="3"
+        android:rowCount="4"
+        app:layout_constraintBottom_toTopOf="@id/call_button"
+        app:layout_constraintDimensionRatio="3:4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/dialed_number">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_1"
+            style="@style/KeypadButtonDark"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:text="1" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_2"
+            style="@style/KeypadButtonDark"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:text="2" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_3"
+            style="@style/KeypadButtonDark"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:text="3" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_4"
+            style="@style/KeypadButtonDark"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:text="4" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_5"
+            style="@style/KeypadButtonDark"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:text="5" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_6"
+            style="@style/KeypadButtonDark"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:text="6" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_7"
+            style="@style/KeypadButtonDark"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:text="7" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_8"
+            style="@style/KeypadButtonDark"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:text="8" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_9"
+            style="@style/KeypadButtonDark"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:text="9" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_star"
+            style="@style/KeypadButtonDark"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:text="*" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_0"
+            style="@style/KeypadButtonDark"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:text="0" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_hash"
+            style="@style/KeypadButtonDark"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:text="#" />
+
+    </GridLayout>
+
+    <!-- Nút gọi -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/call_button"
+        style="@style/functionImageViewStyle"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:backgroundTint="#4CD964"
+        app:cornerRadius="40dp"
+        app:icon="@drawable/phone_call"
+        app:iconSize="40dp"
+        app:iconTint="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/keypad_grid"
+        tools:ignore="SpeakableTextPresentCheck" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

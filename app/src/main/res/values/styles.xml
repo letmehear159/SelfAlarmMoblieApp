@@ -2,17 +2,20 @@
 <resources>
     <style name="TextSmall">
         <item name="android:textSize">@dimen/text_size_small</item>
-        <item name="android:textColor">#E0E0E0</item>
+        <item name="android:textColor">@color/on_surface</item>
+
     </style>
 
     <style name="TextMedium">
         <item name="android:textSize">@dimen/text_size_medium</item>
-        <item name="android:textColor">#E0E0E0</item>
+        <item name="android:textColor">@color/on_surface</item>
+
     </style>
 
     <style name="TextLarge">
         <item name="android:textSize">@dimen/text_size_large</item>
-        <item name="android:textColor">#E0E0E0</item>
+        <item name="android:textColor">@color/on_surface</item>
+
     </style>
 
     <style name="TextTitle">
@@ -23,7 +26,8 @@
 
     <style name="TextSubtitle">
         <item name="android:textSize">@dimen/text_size_subtitle</item>
-        <item name="android:textColor">#B0B0B0</item>
+        <item name="android:textColor">@color/on_surface</item>
+
     </style>
     <style name="functionImageViewStyle">
         <item name="android:layout_width">@dimen/functionImageView</item>
@@ -82,5 +86,16 @@
         <item name="android:insetBottom">4dp</item>
         <item name="android:backgroundTint">@color/cardBackgroundColor</item>
         <item name="rippleColor">@color/colorAccent</item>
+    </style>
+    <style name="TextTime">
+        <item name="android:textSize">@dimen/text_size_time</item>
+        <item name="android:textColor">@color/on_surface</item>
+        <item name="android:textStyle">bold</item>
+        <item name="backgroundTint">@android:color/transparent</item>
+    </style>
+    <style name="textOption">
+        <item name="android:textSize">@dimen/text_size_large</item>
+        <item name="android:textColor">@color/primaryText</item>
+        <item name="android:textStyle">bold</item>
     </style>
 </resources>

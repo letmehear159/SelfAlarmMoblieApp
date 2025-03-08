@@ -11,11 +11,15 @@ public class Alarm {
     }
 
     public Alarm(long timestamp, String content) {
-        this.id = 0;
-        this.timestamp = timestamp;
-        this.content = content;
-        this.isEnabled = 1;
+        this(0, timestamp, content, 1);
+    }
 
+
+    public Alarm(long id, long timestamp, String content, int isEnabled) {
+        this.timestamp = timestamp;
+        this.id = id;
+        this.content = content;
+        this.isEnabled = isEnabled;
     }
 
     public String getContent() {

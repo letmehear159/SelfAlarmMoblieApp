@@ -25,6 +25,17 @@
             android:text="Cancel"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+        <Button
+            android:id="@+id/btnDelete"
+            style="@style/textOption"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:backgroundTint="@android:color/transparent"
+            android:text="Remove"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
 
         <Button
             android:id="@+id/btnSave"
@@ -46,7 +57,23 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/optionLayout">
+        <TextView
+            android:id="@+id/tvSetDescription"
+            style="@style/TextLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Set description"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+        <EditText
+            android:id="@+id/etDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/tvSetDescription"
+            android:hint="Enter content"
 
+            />
         <TextView
             android:id="@+id/tvSetTime"
             style="@style/TextLarge"
@@ -55,15 +82,13 @@
             android:layout_marginTop="20dp"
             android:text="Set time"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/etDescription" />
 
         <TimePicker
             android:id="@+id/timePicker"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:timePickerMode="spinner"
-            app:layout_constraintBottom_toTopOf="@+id/tvSetDate"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvSetTime" />
 
@@ -78,8 +103,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="104dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvSetDate">
 
@@ -98,8 +121,6 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="289dp"
             android:text="Set date"
-            app:layout_constraintBottom_toTopOf="@+id/relativeLayout"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/divider" />
 

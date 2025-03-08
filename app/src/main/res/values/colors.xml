@@ -22,7 +22,7 @@
     <color name="teal_700">#FF018786</color>
     <color name="grey_900">#FF212121</color>
     <color name="bg_dark">#121212</color>
-    <color name="primaryText">#FFFFFF</color>
+    <color name="primaryText">#D9D8D8</color>
     <color name="secondaryText">#757575</color>
 <!--    <color name="surface">#212121</color>-->
     <color name="textPrimaryOnSurface">#C6C6C6</color>

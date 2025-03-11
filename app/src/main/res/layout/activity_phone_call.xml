@@ -8,38 +8,42 @@
     android:padding="16dp">
 
     <!-- Nút quay lại -->
+
+    <!-- Hiển thị số đã quay -->
     <ImageButton
         android:id="@+id/back_button"
         android:layout_width="78dp"
         android:layout_height="48dp"
-        android:layout_marginEnd="308dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="300dp"
         android:background="@android:color/transparent"
         android:contentDescription="Quay Lại"
         android:scaleType="centerInside"
         android:src="@drawable/back"
-        app:tint="@color/iconColor"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/iconColor" />
 
-    <!-- Hiển thị số đã quay -->
+    <!-- Nút xóa -->
     <TextView
         android:id="@+id/dialed_number"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="8dp"
         android:textColor="@color/textColorPrimary"
         android:textSize="28sp"
         app:layout_constraintEnd_toStartOf="@id/backspace_button"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/back_button"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Nút xóa -->
+    <!-- Lưới bàn phím -->
     <ImageButton
         android:id="@+id/backspace_button"
         android:layout_width="78dp"
         android:layout_height="48dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:background="@android:color/transparent"
         android:contentDescription="Xóa"
@@ -48,7 +52,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Lưới bàn phím -->
     <GridLayout
         android:id="@+id/keypad_grid"
         android:layout_width="match_parent"
@@ -170,7 +173,6 @@
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
             android:text="#" />
-
     </GridLayout>
 
     <!-- Nút gọi -->
@@ -191,4 +193,23 @@
         app:layout_constraintTop_toBottomOf="@id/keypad_grid"
         tools:ignore="SpeakableTextPresentCheck" />
 
+    <!-- Nút tới danh bạ -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/contacts_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Danh bạ"
+        app:layout_constraintTop_toBottomOf="@id/call_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"/>
+
+    <!-- Nút tới lịch sử cuộc gọi -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/history_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Lịch sử"
+        app:layout_constraintTop_toBottomOf="@id/call_button"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="16dp"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

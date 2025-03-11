@@ -112,6 +112,7 @@
         <androidx.cardview.widget.CardView
             android:id="@+id/phoneCardView"
             style="@style/sectionCardView"
+            android:onClick="switchToPhone"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/musicCardView">
 

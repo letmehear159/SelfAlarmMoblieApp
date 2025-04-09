@@ -1,4 +1,4 @@
-package com.example.selfalarm.sqlHelper;
+package com.example.selfalarm.helper;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

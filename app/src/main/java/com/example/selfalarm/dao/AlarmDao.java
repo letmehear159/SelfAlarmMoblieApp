@@ -2,8 +2,9 @@ package com.example.selfalarm.dao;
 
 import android.content.ContentValues;
 
+import com.example.selfalarm.broadcast_receiver.AlarmReceiver;
 import com.example.selfalarm.entity.Alarm;
-import com.example.selfalarm.sqlHelper.DatabaseHelper;
+import com.example.selfalarm.helper.DatabaseHelper;
 
 import android.database.sqlite.SQLiteDatabase;
 import android.content.Context;
@@ -15,9 +16,11 @@ import java.util.List;
 public class AlarmDao {
     private DatabaseHelper dbHelper;
     private SQLiteDatabase db;
+    private Context context;
 
     public AlarmDao(Context context) {
         dbHelper = new DatabaseHelper(context);
+        this.context = context;
     }
 
     public long addAlarm(Alarm alarm) {
@@ -28,6 +31,9 @@ public class AlarmDao {
         values.put(DatabaseHelper.COLUMN_IS_ENABLED, alarm.getIsEnabled());
         // Không cần put COLUMN_ID, SQLite sẽ tự động gán
         long id = db.insert(DatabaseHelper.TABLE_NAME, null, values);  // Trả về id mới
+        if (alarm.getIsEnabled()==1) {
+            AlarmReceiver.setAlarm(context, alarm.getTimestamp(), alarm.getContent(), (int)id);
+        }
         db.close();
         return id;
     }
@@ -54,6 +60,7 @@ public class AlarmDao {
     }
 
     public int deleteAlarm(long id) {
+        AlarmReceiver.cancelAlarm(context, (int) id);
         db = dbHelper.getWritableDatabase();
         int rowsDeleted = db.delete(
                 DatabaseHelper.TABLE_NAME,
@@ -76,7 +83,29 @@ public class AlarmDao {
                 DatabaseHelper.COLUMN_ID + " = ?",
                 new String[]{String.valueOf(alarm.getId())}
         );
+        if (alarm.getIsEnabled()==1) {
+            AlarmReceiver.setAlarm(context, alarm.getTimestamp(), alarm.getContent(), (int) alarm.getId());
+        } else {
+            AlarmReceiver.cancelAlarm(context, (int) alarm.getId());
+        }
         db.close();
         return rowsUpdated;
+    }
+
+    public void deleteAllAlarms() {
+        db = dbHelper.getWritableDatabase();
+
+        // Lấy danh sách tất cả alarm để hủy trong AlarmManager
+        List<Alarm> alarms = getAllAlarms();
+        for (Alarm alarm : alarms) {
+            AlarmReceiver.cancelAlarm(context, (int)alarm.getId());
+        }
+        if (!db.isOpen()) {
+            db = dbHelper.getWritableDatabase();
+        }
+        // Xóa tất cả bản ghi trong bảng Alarm
+
+        db.delete(DatabaseHelper.TABLE_NAME, null, null);
+        db.close();
     }
 }

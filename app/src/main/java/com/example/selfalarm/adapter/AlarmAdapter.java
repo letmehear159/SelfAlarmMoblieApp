@@ -13,6 +13,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.selfalarm.R;
+import com.example.selfalarm.broadcast_receiver.AlarmReceiver;
+import com.example.selfalarm.dao.AlarmDao;
 import com.example.selfalarm.entity.Alarm;
 import com.example.selfalarm.fragment.EditDatetimeBottomSheet;
 import com.google.android.material.materialswitch.MaterialSwitch;
@@ -28,11 +30,14 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.AlarmViewHol
     private Context context;
     private FragmentManager fragmentManager;
     EditDatetimeBottomSheet editDatetimeBottomSheet;
+
+    private AlarmDao alarmDao;
     public AlarmAdapter(List<Alarm> alarmList, Context context, FragmentManager fragmentManager,EditDatetimeBottomSheet editDatetimeBottomSheet) {
         this.alarmList = alarmList;
         this.context = context;
         this.fragmentManager = fragmentManager;
         this.editDatetimeBottomSheet = editDatetimeBottomSheet;
+        this.alarmDao = new AlarmDao(context);
     }
 
     @NonNull
@@ -71,6 +76,21 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.AlarmViewHol
             editDatetimeBottomSheet.setArguments(bundle);
 
             editDatetimeBottomSheet.show(fragmentManager, "EditDatetimeBottomSheet");
+        });
+
+        // Xử lý sự kiện toggle switch
+        holder.swSet.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            alarm.setIsEnabled(isChecked ? 1 : 0);
+            // Cập nhật vào database
+            alarmDao.updateAlarm(alarm);
+
+//             Cập nhật alarm trong AlarmManager
+            if (isChecked) {
+                AlarmReceiver.setAlarm(context, alarm.getTimestamp(),
+                        alarm.getContent(), (int)alarm.getId());
+            } else {
+                AlarmReceiver.cancelAlarm(context, (int)alarm.getId());
+            }
         });
     }
 

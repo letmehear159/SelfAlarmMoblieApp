@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.READ_CALENDAR" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" /> <!-- Nếu cần chạy lâu dài -->
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -21,12 +28,18 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.alarmActivity.AlarmActivity" />
+        <activity android:name=".activity.alarmActivity.AlarmRingActivity" />
         <activity android:name=".activity.musicActivity.MusicActivity" />
         <activity android:name=".activity.musicActivity.MusicPlayerActivity" />
 
         <activity android:name=".activity.messageActivity.MessageActivity" />
         <activity android:name=".activity.messageActivity.NewMessageActivity" />
         <activity android:name=".activity.messageActivity.DetailMessageActivity" />
+
+        <receiver android:name=".broadcast_receiver.AlarmReceiver"
+            android:enabled="true"
+            android:exported="false">
+        </receiver>
     </application>
 
 </manifest>

@@ -5,8 +5,10 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.PowerManager;
@@ -17,6 +19,12 @@ import androidx.core.app.NotificationCompat;
 import com.example.selfalarm.R;
 import com.example.selfalarm.activity.alarmActivity.AlarmActivity;
 import com.example.selfalarm.activity.alarmActivity.AlarmRingActivity;
+import com.example.selfalarm.dao.AlarmDao;
+import com.example.selfalarm.entity.Alarm;
+import com.example.selfalarm.helper.DatabaseHelper;
+
+import java.util.Calendar;
+import java.util.List;
 
 public class AlarmReceiver extends BroadcastReceiver {
     private static final String CHANNEL_ID = "AlarmChannel";
@@ -40,6 +48,22 @@ public class AlarmReceiver extends BroadcastReceiver {
         ringIntent.putExtra("content", content);
         ringIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(ringIntent);
+
+
+        AlarmDao alarmDao = new AlarmDao(context);
+        List<Alarm> alarms = alarmDao.getAllAlarms();
+        for (Alarm alarm : alarms) {
+            if ((int) alarm.getId() == alarmId && alarm.getIsRepeating() == 1) {
+                // Tính timestamp cho ngày tiếp theo
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTimeInMillis(alarm.getTimestamp());
+                calendar.add(Calendar.DAY_OF_YEAR, 1); // +1 ngày
+                long nextTimestamp = calendar.getTimeInMillis();
+                alarm.setTimestamp(nextTimestamp);
+                alarmDao.updateAlarm(alarm); // setAlarm đã được gọi trong updateAlarm
+                break;
+            }
+        }
     }
 
     // Đánh thức màn hình

@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TimePicker;
 
 import com.example.selfalarm.R;
@@ -17,18 +18,20 @@ import com.example.selfalarm.entity.Alarm;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.switchmaterial.SwitchMaterial;
 
 import java.util.Calendar;
 
 public class BottomSheetFragment extends BottomSheetDialogFragment {
     private OnAlarmAddedListener listener;
     AlarmDao alarmDao;
-
-
     Button btnCancel;
     Button btnSave;
 
     Button btnRemove;
+
+    private SwitchMaterial swSetRepeat; // Thêm SwitchMaterial
+    private RelativeLayout relativeLayout; // Thêm RelativeLayout chứa DatePicker
 
     public BottomSheetFragment(AlarmDao alarmDao) {
         this.alarmDao = alarmDao;
@@ -42,6 +45,21 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle saveInstanceState) {
         View view = inflater.inflate(R.layout.bottom_sheet_alarm, container, false);
         addFunctionForButton(view);
+        swSetRepeat = view.findViewById(R.id.swSetRepeat);
+        relativeLayout = view.findViewById(R.id.relativeLayout); // Chứa DatePicker
+        // Thiết lập listener cho SwitchMaterial
+        swSetRepeat.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                relativeLayout.setVisibility(View.VISIBLE); // Hiện DatePicker
+            } else {
+                relativeLayout.setVisibility(View.GONE); // Ẩn DatePicker
+            }
+        });
+
+        // Đặt trạng thái mặc định: nếu swSetRepeat tắt, ẩn DatePicker
+        if (!swSetRepeat.isChecked()) {
+            relativeLayout.setVisibility(View.GONE);
+        }
         return view;
     }
 
@@ -91,9 +109,12 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
 
             String content = ((EditText) view.findViewById(R.id.etDescription)).getText().toString();
 
-            Alarm alarm = new Alarm(timeStamp, content);
+            int isRepeat = swSetRepeat.isChecked() ? 0 : 1;
 
-            alarmDao.addAlarm(alarm);
+            Alarm alarm = new Alarm(timeStamp, content, isRepeat);
+
+            long id = alarmDao.addAlarm(alarm);
+            alarm.setId(id);
             if (listener != null) {
                 listener.onAlarmAdded(alarm);
             }

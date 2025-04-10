@@ -11,5 +11,6 @@
     <string name="save_contact">Lưu danh bạ</string>
     <string name="add_photo">Nhấn để thêm ảnh</string>
     <string name="fab">test</string>
+    <string name="missed_call">Cuộc gọi nhỡ</string>
 
 </resources>

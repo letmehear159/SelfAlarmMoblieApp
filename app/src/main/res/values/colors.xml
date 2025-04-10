@@ -53,4 +53,6 @@
     <color name="textColorSecondary">#B3FFFFFF</color>
     <color name="backgroundColor">#121212</color>
     <color name="iconColor">#FFFFFF</color>
+    <color name="colorError">#F44336</color>
+
 </resources>

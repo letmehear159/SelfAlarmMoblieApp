@@ -6,10 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.selfalarm.R;
 
 import java.util.List;
@@ -37,10 +35,9 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
         holder.lastMessage.setText(message.getLastMessage());
         holder.time.setText(message.getTime());
 
-        // Khi nhấn vào tin nhắn, mở DetailMessageActivity
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(context, DetailMessageActivity.class);
-            intent.putExtra("sender", message.getSender()); // Truyền tên thuê bao
+            intent.putExtra("sender", message.getSender());
             context.startActivity(intent);
         });
     }

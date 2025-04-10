@@ -2,6 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-feature android:name="android.hardware.telephony" android:required="false" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -26,7 +33,25 @@
 
         <activity android:name=".activity.messageActivity.MessageActivity" />
         <activity android:name=".activity.messageActivity.NewMessageActivity" />
-        <activity android:name=".activity.messageActivity.DetailMessageActivity" />
+        <activity android:name=".activity.messageActivity.DetailMessageActivity"
+                  android:windowSoftInputMode="adjustResize"/>
+
+        <receiver
+            android:name=".activity.messageActivity.SmsReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter android:priority="999">
+                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+            </intent-filter>
+        </receiver>
+
+        <service android:name=".activity.messageActivity.SmsService"
+            android:exported="false" />
+
+        <provider
+            android:name=".activity.messageActivity.SmsContentProvider"
+            android:authorities="com.example.selfalarm.smsprovider"
+            android:exported="false" />
     </application>
 
 </manifest>

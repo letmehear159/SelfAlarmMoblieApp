@@ -1,13 +1,17 @@
 package com.example.selfalarm.activity;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.example.selfalarm.R;
 import com.example.selfalarm.dao.CallLogDao;
@@ -152,13 +156,35 @@ public class PhoneCallActivity extends AppCompatActivity implements View.OnClick
                 number,
                 contactName,
                 System.currentTimeMillis(),
-                0, // Thời lượng chưa biết
+                0,
                 CallLog.CALL_TYPE_OUTGOING);
         callLogDao.addCallLog(newCall);
 
-        // Thực hiện cuộc gọi
-        Intent intent = new Intent(Intent.ACTION_DIAL);
-        intent.setData(Uri.parse("tel:" + number));
-        startActivity(intent);
+        // Kiểm tra quyền CALL_PHONE trước khi thực hiện cuộc gọi
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.CALL_PHONE)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{android.Manifest.permission.CALL_PHONE},
+                    1); // requestCode = 1
+        } else {
+            // Đã có quyền, thực hiện cuộc gọi
+            Intent intent = new Intent(Intent.ACTION_CALL);
+            intent.setData(Uri.parse("tel:" + number));
+            startActivity(intent);
+        }
     }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == 1) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Quyền đã được cấp, thực hiện lại cuộc gọi
+                makeCall(phoneNumber.toString());
+            } else {
+                Toast.makeText(this, "Bạn cần cấp quyền để thực hiện cuộc gọi.", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
 }

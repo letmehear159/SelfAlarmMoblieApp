@@ -1,5 +1,6 @@
 package com.example.selfalarm.activity.alarmActivity;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
@@ -9,6 +10,7 @@ import android.provider.CalendarContract;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,21 +19,23 @@ import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.Manifest;
-import android.widget.Toast;
+import androidx.fragment.app.Fragment;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.selfalarm.R;
 import com.example.selfalarm.adapter.AlarmAdapter;
+import com.example.selfalarm.adapter.AlarmPagerAdapter;
 import com.example.selfalarm.broadcast_receiver.AlarmReceiver;
 import com.example.selfalarm.broadcast_receiver.BatteryReceiver;
 import com.example.selfalarm.dao.AlarmDao;
 import com.example.selfalarm.entity.Alarm;
 import com.example.selfalarm.fragment.BottomSheetFragment;
+import com.example.selfalarm.fragment.DailyAlarmFragment;
 import com.example.selfalarm.fragment.EditDatetimeBottomSheet;
+import com.example.selfalarm.fragment.EventAlarmFragment;
 import com.example.selfalarm.helper.NotificationHelper;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -43,18 +47,14 @@ public class AlarmActivity extends AppCompatActivity {
 
     private static final int REQUEST_CALENDAR_PERMISSION = 100;
     private AlarmDao alarmDao = new AlarmDao(this);
-
     BottomSheetFragment bottomSheet = new BottomSheetFragment(alarmDao);
-
     EditDatetimeBottomSheet editDatetimeBottomSheet = new EditDatetimeBottomSheet();
-
-    private List<Alarm> alarmList;
+    private List<Alarm> eventAlarmList = new ArrayList<>();
+    private List<Alarm> dailyAlarmList = new ArrayList<>();
+    private ViewPager2 viewPager;
+    private TabLayout tabLayout;
+    private AlarmPagerAdapter pagerAdapter;
     private Button btnDeleteAll;
-
-
-    private RecyclerView alarmRecyclerView;
-
-    private AlarmAdapter alarmAdapter;
     private BatteryReceiver batteryReceiver;
 
     @Override
@@ -68,55 +68,70 @@ public class AlarmActivity extends AppCompatActivity {
             return insets;
         });
 
+        // Khởi tạo TabLayout và ViewPager2
+        tabLayout = findViewById(R.id.tabLayout);
+        viewPager = findViewById(R.id.viewPager);
+
+        // Load dữ liệu từ database
+        loadAlarmsFromDatabase();
 
 
-        btnDeleteAll = findViewById(R.id.btnDeleteAll);
-        btnDeleteAll.setOnClickListener(v -> {
-            alarmDao.deleteAllAlarms();
-            alarmList.clear();          // Xóa tất cả dữ liệu trong danh sách hiện tại
-            alarmAdapter.notifyDataSetChanged(); // Th
-        });
-
-        alarmList = alarmDao.getAllAlarms();
-
-        alarmAdapter = new AlarmAdapter(alarmList, this, getSupportFragmentManager(), editDatetimeBottomSheet);
-
-        alarmRecyclerView = findViewById(R.id.rvReminderList);
-
-        alarmRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        alarmRecyclerView.setAdapter(alarmAdapter);
-
+        // Xử lý thêm báo thức từ BottomSheet
         bottomSheet.setOnAlarmAddedListener(newAlarm -> {
-            alarmList.add(newAlarm);
-            sortAlarmList();
-            alarmAdapter.notifyDataSetChanged();
+            if (newAlarm.getTimestamp() < System.currentTimeMillis() && newAlarm.getIsRepeating() == 1) {
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTimeInMillis(newAlarm.getTimestamp());
+                calendar.add(Calendar.DAY_OF_YEAR, 1);
+                newAlarm.setTimestamp(calendar.getTimeInMillis());
+            }
+            addAlarmToList(newAlarm);
+            updateFragments();
         });
 
-        editDatetimeBottomSheet.setOnAlarmUpdatedListener(new EditDatetimeBottomSheet.OnAlarmUpdatedListener() {
+        // Xử lý cập nhật và xóa từ EditDatetimeBottomSheet
+        // Thiết lập ViewPager2 và TabLayout
+        EditDatetimeBottomSheet.OnAlarmUpdatedListener listener = new EditDatetimeBottomSheet.OnAlarmUpdatedListener() {
             @Override
             public void onAlarmUpdated(int position, Alarm updatedAlarm) {
-                alarmList.set(position, updatedAlarm);
-                alarmAdapter.notifyItemChanged(position);
+                updateAlarmInList(position, updatedAlarm);
+                updateFragments();
+                Log.d("AlarmActivity", "Alarm updated at position: " + position);
             }
 
             @Override
             public void onAlarmDeleted(int position) {
-                alarmList.remove(position);
-                alarmAdapter.notifyItemRemoved(position);
-
+                removeAlarmFromList(position);
+                updateFragments();
+                Log.d("AlarmActivity", "Alarm deleted at position: " + position);
             }
-        });
+        };
+        pagerAdapter = new AlarmPagerAdapter(this, eventAlarmList, dailyAlarmList, listener); // Truyền listener
+        viewPager.setAdapter(pagerAdapter);
+
+        new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
+            if (position == 0) {
+                tab.setText("Event");
+            } else {
+                tab.setText("Daily");
+            }
+        }).attach();
 
         // Battery saver
         NotificationHelper.createNotificationChannel(this);
-        // Khởi tạo và đăng ký BroadcastReceiver
         batteryReceiver = new BatteryReceiver();
         IntentFilter filter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
         registerReceiver(batteryReceiver, filter);
 
-        // Kiểm tra và yêu cầu quyền
-        // Calendar event to alarm
+        // Nút Delete All
+        btnDeleteAll = findViewById(R.id.btnDeleteAll);
+        btnDeleteAll.setOnClickListener(v -> {
+            alarmDao.deleteAllAlarms();
+            eventAlarmList.clear();
+            dailyAlarmList.clear();
+            updateFragments();
+        });
+
+        // Nút Import Calendar Events
         Button btnImportCalendar = findViewById(R.id.btnImportCalendar);
         btnImportCalendar.setOnClickListener(v -> {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CALENDAR)
@@ -130,7 +145,6 @@ public class AlarmActivity extends AppCompatActivity {
         });
     }
 
-
     public void showBottomSheet(View view) {
         bottomSheet.show(getSupportFragmentManager(), "bottomSheet");
     }
@@ -140,12 +154,112 @@ public class AlarmActivity extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == REQUEST_CALENDAR_PERMISSION) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Quyền được cấp, có thể lấy events
                 fetchCalendarEvents();
             } else {
-                // Quyền bị từ chối, thông báo người dùng
                 Toast.makeText(this, "Calendar permission denied", Toast.LENGTH_SHORT).show();
             }
+        }
+    }
+
+    private void loadAlarmsFromDatabase() {
+        List<Alarm> allAlarms = alarmDao.getAllAlarms();
+        eventAlarmList.clear();
+        dailyAlarmList.clear();
+        for (Alarm alarm : allAlarms) {
+            if (alarm.getIsRepeating() == 1) {
+                dailyAlarmList.add(alarm);
+            } else {
+                eventAlarmList.add(alarm);
+            }
+        }
+        sortAlarmList(eventAlarmList);
+        sortAlarmList(dailyAlarmList);
+    }
+
+    private void addAlarmToList(Alarm alarm) {
+        if (alarm.getIsRepeating() == 1) {
+            dailyAlarmList.add(alarm);
+            sortAlarmList(dailyAlarmList);
+        } else {
+            eventAlarmList.add(alarm);
+            sortAlarmList(eventAlarmList);
+        }
+    }
+
+    private void updateAlarmInList(int position, Alarm updatedAlarm) {
+        // Xác định alarm thuộc danh sách nào dựa trên position và cập nhật
+        long alarmId = updatedAlarm.getId();
+        boolean found = false;
+        // Tìm trong eventAlarmList
+        for (int i = 0; i < eventAlarmList.size(); i++) {
+            if (eventAlarmList.get(i).getId() == alarmId) {
+                found = true;
+                Alarm oldAlarm = eventAlarmList.get(i);
+                eventAlarmList.remove(i); // Xóa báo thức cũ
+                if (updatedAlarm.getIsRepeating() == 1) {
+                    // Chuyển từ event sang daily
+                    dailyAlarmList.add(updatedAlarm);
+                    sortAlarmList(dailyAlarmList);
+                    Log.d("AlarmActivity", "Moved alarm from event to daily, id: " + alarmId);
+                } else {
+                    // Giữ trong event
+                    eventAlarmList.add(updatedAlarm);
+                    sortAlarmList(eventAlarmList);
+                    Log.d("AlarmActivity", "Updated alarm in event list, id: " + alarmId);
+                }
+                break;
+            }
+        }
+
+        // Nếu không tìm thấy trong eventAlarmList, tìm trong dailyAlarmList
+        if (!found) {
+            for (int i = 0; i < dailyAlarmList.size(); i++) {
+                if (dailyAlarmList.get(i).getId() == alarmId) {
+                    Alarm oldAlarm = dailyAlarmList.get(i);
+                    dailyAlarmList.remove(i); // Xóa báo thức cũ
+                    if (updatedAlarm.getIsRepeating() == 1) {
+                        // Giữ trong daily
+                        dailyAlarmList.add(updatedAlarm);
+                        sortAlarmList(dailyAlarmList);
+                        Log.d("AlarmActivity", "Updated alarm in daily list, id: " + alarmId);
+                    } else {
+                        // Chuyển từ daily sang event
+                        eventAlarmList.add(updatedAlarm);
+                        sortAlarmList(eventAlarmList);
+                        Log.d("AlarmActivity", "Moved alarm from daily to event, id: " + alarmId);
+                    }
+                    break;
+                }
+            }
+        }
+    }
+
+    private void removeAlarmFromList(int position) {
+        int eventSize = eventAlarmList.size();
+        if (position < eventSize) {
+            eventAlarmList.remove(position);
+        } else {
+            dailyAlarmList.remove(position - eventSize);
+        }
+    }
+
+    private void sortAlarmList(List<Alarm> list) {
+        Collections.sort(list, new Comparator<Alarm>() {
+            @Override
+            public int compare(Alarm a1, Alarm a2) {
+                return Long.compare(a1.getTimestamp(), a2.getTimestamp());
+            }
+        });
+    }
+
+    private void updateFragments() {
+        Fragment eventFragment = getSupportFragmentManager().findFragmentByTag("f0");
+        if (eventFragment instanceof EventAlarmFragment) {
+            ((EventAlarmFragment) eventFragment).updateList(eventAlarmList);
+        }
+        Fragment dailyFragment = getSupportFragmentManager().findFragmentByTag("f1");
+        if (dailyFragment instanceof DailyAlarmFragment) {
+            ((DailyAlarmFragment) dailyFragment).updateList(dailyAlarmList);
         }
     }
 
@@ -157,19 +271,13 @@ public class AlarmActivity extends AppCompatActivity {
             return;
         }
 
-        // Các cột cần truy vấn
-        String[] projection = new String[] {
+        String[] projection = new String[]{
                 CalendarContract.Events._ID,
                 CalendarContract.Events.TITLE,
                 CalendarContract.Events.DTSTART,
                 CalendarContract.Events.DESCRIPTION
         };
 
-        // Thời gian lọc
-        long now = System.currentTimeMillis();
-        long oneWeekLater = now + 7 * 24 * 60 * 60 * 1000;
-
-        // Tạo điều kiện lọc dựa trên CALENDAR_ID
         StringBuilder selection = new StringBuilder();
         selection.append(CalendarContract.Events.CALENDAR_ID + " IN (");
         for (int i = 0; i < userCalendarIds.size(); i++) {
@@ -183,11 +291,10 @@ public class AlarmActivity extends AppCompatActivity {
             selectionArgs[i] = String.valueOf(userCalendarIds.get(i));
         }
 
-        // Truy vấn sự kiện từ lịch với bộ lọc
         Cursor cursor = getContentResolver().query(
                 CalendarContract.Events.CONTENT_URI,
                 projection,
-                selection.toString(), // Áp dụng bộ lọc CALENDAR_ID
+                selection.toString(),
                 selectionArgs,
                 CalendarContract.Events.DTSTART + " ASC"
         );
@@ -199,7 +306,7 @@ public class AlarmActivity extends AppCompatActivity {
                 long startTime = cursor.getLong(2);
                 String description = cursor.getString(3);
 
-                Alarm alarm = new Alarm(startTime, title != null ? title : "Event");
+                Alarm alarm = new Alarm(startTime, title != null ? title : "Event", 0);
                 alarm.setId(eventId);
                 alarm.setIsEnabled(1);
                 calendarAlarms.add(alarm);
@@ -210,41 +317,33 @@ public class AlarmActivity extends AppCompatActivity {
         convertCalendarEventsToAlarms(calendarAlarms);
     }
 
-
     private void convertCalendarEventsToAlarms(List<Alarm> calendarAlarms) {
+        long currentTime = System.currentTimeMillis();
         for (Alarm alarm : calendarAlarms) {
-            // Kiểm tra xem alarm đã tồn tại chưa (dựa trên ID hoặc timestamp)
             boolean exists = false;
-            for (Alarm existingAlarm : alarmList) {
+            for (Alarm existingAlarm : eventAlarmList) {
                 if (existingAlarm.getId() == alarm.getId() ||
                         existingAlarm.getTimestamp() == alarm.getTimestamp()) {
                     exists = true;
                     break;
                 }
             }
-
             if (!exists) {
-                // Thêm vào database
                 long alarmId = alarmDao.addAlarm(alarm);
-                alarm.setId(alarmId); // Cập nhật ID từ database
-
-                // Đặt báo thức với AlarmManager
-                if (alarm.getTimestamp() > System.currentTimeMillis()) {
+                alarm.setId(alarmId);
+                if (alarm.getTimestamp() > currentTime) {
                     AlarmReceiver.setAlarm(this, alarm.getTimestamp(), alarm.getContent(), (int) alarmId);
                 }
-
-                // Thêm vào danh sách UI
-                alarmList.add(alarm);
+                eventAlarmList.add(alarm);
+                sortAlarmList(eventAlarmList);
             }
         }
-        alarmAdapter.notifyDataSetChanged(); // Cập nhật RecyclerView
+        updateFragments();
     }
-
 
     private List<Long> fetchUserCalendars() {
         List<Long> userCalendarIds = new ArrayList<>();
-
-        String[] projection = new String[] {
+        String[] projection = new String[]{
                 CalendarContract.Calendars._ID,
                 CalendarContract.Calendars.ACCOUNT_NAME,
                 CalendarContract.Calendars.CALENDAR_DISPLAY_NAME,
@@ -266,8 +365,7 @@ public class AlarmActivity extends AppCompatActivity {
                 String displayName = cursor.getString(2);
                 int isPrimary = cursor.getInt(3);
 
-                // Lọc lịch cá nhân (primary hoặc do bạn sở hữu)
-                if (isPrimary == 1 ) { // Thay bằng email của bạn
+                if (isPrimary == 1) {
                     userCalendarIds.add(calendarId);
                 }
 
@@ -276,16 +374,6 @@ public class AlarmActivity extends AppCompatActivity {
             }
             cursor.close();
         }
-
         return userCalendarIds;
-    }
-
-    private void sortAlarmList() {
-        Collections.sort(alarmList, new Comparator<Alarm>() {
-            @Override
-            public int compare(Alarm a1, Alarm a2) {
-                return Long.compare(a1.getTimestamp(), a2.getTimestamp());
-            }
-        });
     }
 }

@@ -7,13 +7,13 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     public static final String DATABASE_NAME = "MixMobileAppDB";
-    public static final int DATABASE_VERSION = 1;
+    public static final int DATABASE_VERSION = 2;
     public static final String TABLE_NAME = "Alarm";
     public static final String COLUMN_ID = "id";
     public static final String COLUMN_TIMESTAMP = "timestamp";
     public static final String COLUMN_CONTENT = "content";
     public static final String COLUMN_IS_ENABLED = "is_enabled";
-
+    public static final String COLUMN_IS_REPEATING = "is_repeating"; // Cột mới
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -24,8 +24,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + COLUMN_TIMESTAMP + " INTEGER NOT NULL,"
                 + COLUMN_CONTENT + " TEXT NOT NULL,"
-                + COLUMN_IS_ENABLED + " INTEGER NOT NULL DEFAULT 1"
-                + ")";
+                + COLUMN_IS_ENABLED + " INTEGER NOT NULL DEFAULT 1, "
+                + COLUMN_IS_REPEATING + " integer not null default 0);";
         db.execSQL(CREATE_TABLE);
     }
 

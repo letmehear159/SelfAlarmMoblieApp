@@ -6,20 +6,22 @@ public class Alarm {
     private String content;
 
     private int isEnabled;
+    private int isRepeating;
 
     public Alarm() {
     }
 
-    public Alarm(long timestamp, String content) {
-        this(0, timestamp, content, 1);
+    public Alarm(long timestamp, String content, int isRepeating) {
+        this(0, timestamp, content, 1, isRepeating);
     }
 
 
-    public Alarm(long id, long timestamp, String content, int isEnabled) {
+    public Alarm(long id, long timestamp, String content, int isEnabled, int isRepeating) {
         this.timestamp = timestamp;
         this.id = id;
         this.content = content;
         this.isEnabled = isEnabled;
+        this.isRepeating = isRepeating;
     }
 
     public String getContent() {
@@ -52,5 +54,13 @@ public class Alarm {
 
     public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public int getIsRepeating() {
+        return isRepeating;
+    }
+
+    public void setIsRepeating(int isRepeating) {
+        this.isRepeating = isRepeating;
     }
 }

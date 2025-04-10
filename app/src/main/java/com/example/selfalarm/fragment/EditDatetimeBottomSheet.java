@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TimePicker;
 
 import androidx.annotation.NonNull;
@@ -40,12 +41,12 @@ public class EditDatetimeBottomSheet extends BottomSheetDialogFragment {
     private AlarmDao alarmDao;
     private Alarm alarm;
 
-    private com.google.android.material.switchmaterial.SwitchMaterial swSet;
+    private SwitchMaterial swSetRepeat; // Thêm SwitchMaterial
+    private RelativeLayout relativeLayout; // Thêm RelativeLayout chứa DatePicker
 
     public void setOnAlarmUpdatedListener(OnAlarmUpdatedListener listener) {
         this.listener = listener;
     }
-
 
     public EditDatetimeBottomSheet() {
     }
@@ -64,6 +65,18 @@ public class EditDatetimeBottomSheet extends BottomSheetDialogFragment {
         }
         addFunctionToButton(view);
 
+        if(!swSetRepeat.isChecked()){
+            relativeLayout.setVisibility(View.GONE);
+        }
+
+        // Thiết lập listener cho SwitchMaterial
+        swSetRepeat.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                relativeLayout.setVisibility(View.VISIBLE); // Hiện DatePicker
+            } else {
+                relativeLayout.setVisibility(View.GONE); // Ẩn DatePicker
+            }
+        });
 
         return view;
     }
@@ -92,7 +105,7 @@ public class EditDatetimeBottomSheet extends BottomSheetDialogFragment {
     private void updateDataToEdit() {
         long timestamp = getArguments().getLong("timestamp");
         String content = getArguments().getString("content");
-        int isEnabled = getArguments().getInt("isEnabled");
+        int isRepeating = getArguments().getInt("isRepeating");
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(timestamp);
@@ -105,7 +118,7 @@ public class EditDatetimeBottomSheet extends BottomSheetDialogFragment {
         timePicker.setMinute(calendar.get(Calendar.MINUTE));
 
         etDescription.setText(content);
-//        swSet.setChecked(isEnabled == 1);
+        swSetRepeat.setChecked(isRepeating == 0);
     }
 
     public void findViewsById(View view) {
@@ -118,7 +131,8 @@ public class EditDatetimeBottomSheet extends BottomSheetDialogFragment {
         timePicker = view.findViewById(R.id.timePicker);
         btnSave = view.findViewById(R.id.btnSave);
         btnCancel = view.findViewById(R.id.btnCancel);
-        swSet = view.findViewById(R.id.swSet);
+        swSetRepeat = view.findViewById(R.id.swSetRepeat);
+        relativeLayout = view.findViewById(R.id.relativeLayout); // Chứa DatePicker
     }
 
     public void addFunctionToButton(View view) {
@@ -129,7 +143,8 @@ public class EditDatetimeBottomSheet extends BottomSheetDialogFragment {
             long id = getArguments().getLong("id");
             int position = getArguments().getInt("position");
             int isEnable = getArguments().getInt("isEnabled");
-            Alarm updatedAlarm = new Alarm(id, newTimeStamp, newContent, isEnable);
+            int isRepeating = swSetRepeat.isChecked() ? 0 : 1;
+            Alarm updatedAlarm = new Alarm(id, newTimeStamp, newContent, isEnable, isRepeating);
             alarmDao.updateAlarm(updatedAlarm);
             if (listener != null) {
                 listener.onAlarmUpdated(position, updatedAlarm);

@@ -1,5 +1,6 @@
 package com.example.selfalarm.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -30,14 +31,16 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.AlarmViewHol
     private Context context;
     private FragmentManager fragmentManager;
     EditDatetimeBottomSheet editDatetimeBottomSheet;
-
+    private EditDatetimeBottomSheet.OnAlarmUpdatedListener listener;
     private AlarmDao alarmDao;
-    public AlarmAdapter(List<Alarm> alarmList, Context context, FragmentManager fragmentManager,EditDatetimeBottomSheet editDatetimeBottomSheet) {
+
+    public AlarmAdapter(List<Alarm> alarmList, Context context, FragmentManager fragmentManager, EditDatetimeBottomSheet editDatetimeBottomSheet, EditDatetimeBottomSheet.OnAlarmUpdatedListener listener) {
         this.alarmList = alarmList;
         this.context = context;
         this.fragmentManager = fragmentManager;
         this.editDatetimeBottomSheet = editDatetimeBottomSheet;
         this.alarmDao = new AlarmDao(context);
+        this.listener = listener;
     }
 
     @NonNull
@@ -50,21 +53,32 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.AlarmViewHol
     }
 
 
-    @Override
     //This function is used to bind the data to the ViewHolder
     //To be more concise, it means that for each of object in List, it will create a custom layout(item_alarm)
     //Then passes data to that layout and adds it to the RecyclerView
+    @Override
     public void onBindViewHolder(@NonNull AlarmViewHolder holder, int position) {
-
-        //Get the alarm at the current position
+        // Get the alarm at the current position
         Alarm alarm = alarmList.get(position);
 
-        //Bind the alarm to the ViewHolder
-        setDateTimeToTextView(alarm.getTimestamp(), holder.tvDate, holder.tvTime);
+        // Hiển thị thời gian dựa trên isRepeating
+        if (alarm.getIsRepeating() == 1) {
+            // Daily alarm: Chỉ hiển thị giờ, ẩn ngày
+            SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
+            String timeString = timeFormat.format(new Date(alarm.getTimestamp()));
+            holder.tvTime.setText(timeString);
+            holder.tvDate.setVisibility(View.GONE); // Ẩn tvDate
+        } else {
+            // Event alarm: Hiển thị cả ngày và giờ
+            holder.tvDate.setVisibility(View.VISIBLE); // Hiện tvDate
+            setDateTimeToTextView(alarm.getTimestamp(), holder.tvDate, holder.tvTime);
+        }
+
+        // Bind nội dung và trạng thái
         holder.tvMessage.setText(alarm.getContent());
         holder.swSet.setChecked(alarm.getIsEnabled() == 1);
 
-        //Bind data to EditDateTimeBottomSheet
+        // Bind data to EditDateTimeBottomSheet
         holder.itemView.setOnClickListener(v -> {
             Bundle bundle = new Bundle();
             bundle.putLong("id", alarm.getId());
@@ -72,9 +86,10 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.AlarmViewHol
             bundle.putString("content", alarm.getContent());
             bundle.putInt("isEnabled", alarm.getIsEnabled());
             bundle.putInt("position", position); // Để biết vị trí cần cập nhật
+            bundle.putInt("isRepeating", alarm.getIsRepeating());
 
             editDatetimeBottomSheet.setArguments(bundle);
-
+            editDatetimeBottomSheet.setOnAlarmUpdatedListener(listener);
             editDatetimeBottomSheet.show(fragmentManager, "EditDatetimeBottomSheet");
         });
 
@@ -84,12 +99,12 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.AlarmViewHol
             // Cập nhật vào database
             alarmDao.updateAlarm(alarm);
 
-//             Cập nhật alarm trong AlarmManager
+            // Cập nhật alarm trong AlarmManager
             if (isChecked) {
                 AlarmReceiver.setAlarm(context, alarm.getTimestamp(),
-                        alarm.getContent(), (int)alarm.getId());
+                        alarm.getContent(), (int) alarm.getId());
             } else {
-                AlarmReceiver.cancelAlarm(context, (int)alarm.getId());
+                AlarmReceiver.cancelAlarm(context, (int) alarm.getId());
             }
         });
     }
@@ -136,5 +151,12 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.AlarmViewHol
         // Truyền vào TextView
         dateTextView.setText(dateString);
         timeTextView.setText(timeString);
+    }
+
+    // Thêm phương thức để cập nhật dữ liệu
+    public void updateData(List<Alarm> newList) {
+//        this.alarmList.clear();
+//        this.alarmList.addAll(newList);
+        notifyDataSetChanged();
     }
 }

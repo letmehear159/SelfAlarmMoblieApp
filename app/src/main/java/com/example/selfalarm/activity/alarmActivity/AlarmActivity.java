@@ -90,7 +90,7 @@ public class AlarmActivity extends AppCompatActivity {
 
         // Xử lý cập nhật và xóa từ EditDatetimeBottomSheet
         // Thiết lập ViewPager2 và TabLayout
-        EditDatetimeBottomSheet.OnAlarmUpdatedListener listener = new EditDatetimeBottomSheet.OnAlarmUpdatedListener() {
+        editDatetimeBottomSheet.setOnAlarmUpdatedListener(new EditDatetimeBottomSheet.OnAlarmUpdatedListener() {
             @Override
             public void onAlarmUpdated(int position, Alarm updatedAlarm) {
                 updateAlarmInList(position, updatedAlarm);
@@ -104,8 +104,23 @@ public class AlarmActivity extends AppCompatActivity {
                 updateFragments();
                 Log.d("AlarmActivity", "Alarm deleted at position: " + position);
             }
-        };
-        pagerAdapter = new AlarmPagerAdapter(this, eventAlarmList, dailyAlarmList, listener); // Truyền listener
+        });
+//        EditDatetimeBottomSheet.OnAlarmUpdatedListener listener = new EditDatetimeBottomSheet.OnAlarmUpdatedListener() {
+//            @Override
+//            public void onAlarmUpdated(int position, Alarm updatedAlarm) {
+//                updateAlarmInList(position, updatedAlarm);
+//                updateFragments();
+//                Log.d("AlarmActivity", "Alarm updated at position: " + position);
+//            }
+//
+//            @Override
+//            public void onAlarmDeleted(int position) {
+//                removeAlarmFromList(position);
+//                updateFragments();
+//                Log.d("AlarmActivity", "Alarm deleted at position: " + position);
+//            }
+//        };
+        pagerAdapter = new AlarmPagerAdapter(this, eventAlarmList, dailyAlarmList, editDatetimeBottomSheet); // Truyền listener
         viewPager.setAdapter(pagerAdapter);
 
         new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
@@ -194,7 +209,6 @@ public class AlarmActivity extends AppCompatActivity {
         for (int i = 0; i < eventAlarmList.size(); i++) {
             if (eventAlarmList.get(i).getId() == alarmId) {
                 found = true;
-                Alarm oldAlarm = eventAlarmList.get(i);
                 eventAlarmList.remove(i); // Xóa báo thức cũ
                 if (updatedAlarm.getIsRepeating() == 1) {
                     // Chuyển từ event sang daily
@@ -215,7 +229,6 @@ public class AlarmActivity extends AppCompatActivity {
         if (!found) {
             for (int i = 0; i < dailyAlarmList.size(); i++) {
                 if (dailyAlarmList.get(i).getId() == alarmId) {
-                    Alarm oldAlarm = dailyAlarmList.get(i);
                     dailyAlarmList.remove(i); // Xóa báo thức cũ
                     if (updatedAlarm.getIsRepeating() == 1) {
                         // Giữ trong daily

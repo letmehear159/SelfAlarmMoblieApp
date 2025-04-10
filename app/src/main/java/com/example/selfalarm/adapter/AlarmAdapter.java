@@ -31,16 +31,15 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.AlarmViewHol
     private Context context;
     private FragmentManager fragmentManager;
     EditDatetimeBottomSheet editDatetimeBottomSheet;
-    private EditDatetimeBottomSheet.OnAlarmUpdatedListener listener;
     private AlarmDao alarmDao;
 
-    public AlarmAdapter(List<Alarm> alarmList, Context context, FragmentManager fragmentManager, EditDatetimeBottomSheet editDatetimeBottomSheet, EditDatetimeBottomSheet.OnAlarmUpdatedListener listener) {
+    public AlarmAdapter(List<Alarm> alarmList, Context context, FragmentManager fragmentManager, EditDatetimeBottomSheet editDatetimeBottomSheet) {
         this.alarmList = alarmList;
         this.context = context;
         this.fragmentManager = fragmentManager;
         this.editDatetimeBottomSheet = editDatetimeBottomSheet;
         this.alarmDao = new AlarmDao(context);
-        this.listener = listener;
+
     }
 
     @NonNull
@@ -89,7 +88,6 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.AlarmViewHol
             bundle.putInt("isRepeating", alarm.getIsRepeating());
 
             editDatetimeBottomSheet.setArguments(bundle);
-            editDatetimeBottomSheet.setOnAlarmUpdatedListener(listener);
             editDatetimeBottomSheet.show(fragmentManager, "EditDatetimeBottomSheet");
         });
 

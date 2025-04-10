@@ -1,4 +1,4 @@
-package com.example.selfalarm.activity;
+package com.example.selfalarm.activity.phoneActivity;
 
 import android.content.Intent;
 import android.net.Uri;

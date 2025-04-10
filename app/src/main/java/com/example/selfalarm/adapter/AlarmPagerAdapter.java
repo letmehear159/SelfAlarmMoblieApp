@@ -15,23 +15,23 @@ import java.util.List;
 public class AlarmPagerAdapter extends FragmentStateAdapter {
     private final List<Alarm> eventAlarmList;
     private final List<Alarm> dailyAlarmList;
-    private final EditDatetimeBottomSheet.OnAlarmUpdatedListener listener;
+    private final EditDatetimeBottomSheet editDatetimeBottomSheet;
 
     public AlarmPagerAdapter(FragmentActivity fragmentActivity, List<Alarm> eventAlarms, List<Alarm> dailyAlarms,
-                             EditDatetimeBottomSheet.OnAlarmUpdatedListener listener) {
+                             EditDatetimeBottomSheet editDatetimeBottomSheet) {
         super(fragmentActivity);
         this.eventAlarmList = eventAlarms;
         this.dailyAlarmList = dailyAlarms;
-        this.listener = listener;
+        this.editDatetimeBottomSheet = editDatetimeBottomSheet;
     }
 
     @NonNull
     @Override
     public Fragment createFragment(int position) {
         if (position == 0) {
-            return EventAlarmFragment.newInstance(eventAlarmList,listener);
+            return EventAlarmFragment.newInstance(eventAlarmList,editDatetimeBottomSheet);
         } else {
-            return DailyAlarmFragment.newInstance(dailyAlarmList,listener);
+            return DailyAlarmFragment.newInstance(dailyAlarmList,editDatetimeBottomSheet);
         }
     }
 

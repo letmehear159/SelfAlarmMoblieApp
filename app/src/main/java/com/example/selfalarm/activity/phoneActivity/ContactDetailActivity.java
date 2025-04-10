@@ -1,4 +1,4 @@
-package com.example.selfalarm.activity;
+package com.example.selfalarm.activity.phoneActivity;
 
 import android.os.Bundle;
 import android.view.Menu;

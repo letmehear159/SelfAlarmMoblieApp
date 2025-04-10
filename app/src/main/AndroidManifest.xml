@@ -47,10 +47,10 @@
         <activity android:name=".activity.alarmActivity.AlarmActivity" />
         <activity android:name=".activity.alarmActivity.AlarmRingActivity" />
         <activity android:name=".activity.musicActivity.MusicActivity" />
-        <activity android:name=".activity.PhoneCallActivity" />
-        <activity android:name=".activity.ContactPhoneActivity" />
-        <activity android:name=".activity.HistoryActivity" />
-        <activity android:name=".activity.ContactDetailActivity" />
+        <activity android:name=".activity.phoneActivity.PhoneCallActivity" />
+        <activity android:name=".activity.phoneActivity.ContactPhoneActivity" />
+        <activity android:name=".activity.phoneActivity.HistoryActivity" />
+        <activity android:name=".activity.phoneActivity.ContactDetailActivity" />
         <activity android:name=".activity.messageActivity.MessageActivity" />
         <activity android:name=".activity.messageActivity.NewMessageActivity" />
 

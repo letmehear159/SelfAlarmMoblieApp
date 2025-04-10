@@ -18,16 +18,16 @@ import java.util.List;
 public class DailyAlarmFragment extends Fragment {
     private List<Alarm> dailyAlarmList;
     private AlarmAdapter alarmAdapter;
-    private EditDatetimeBottomSheet.OnAlarmUpdatedListener listener;
+    private EditDatetimeBottomSheet editDatetimeBottomSheet;
 
     public DailyAlarmFragment() {
         // Required empty public constructor
     }
 
-    public static DailyAlarmFragment newInstance(List<Alarm> dailyAlarms, EditDatetimeBottomSheet.OnAlarmUpdatedListener listener) {
+    public static DailyAlarmFragment newInstance(List<Alarm> dailyAlarms, EditDatetimeBottomSheet editDatetimeBottomSheet) {
         DailyAlarmFragment fragment = new DailyAlarmFragment();
         fragment.dailyAlarmList = dailyAlarms;
-        fragment.listener = listener;
+        fragment.editDatetimeBottomSheet = editDatetimeBottomSheet;
         return fragment;
     }
 
@@ -36,7 +36,7 @@ public class DailyAlarmFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_alarm_list, container, false);
         RecyclerView recyclerView = view.findViewById(R.id.rvAlarmList);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        alarmAdapter = new AlarmAdapter(dailyAlarmList, getActivity(), getParentFragmentManager(), new EditDatetimeBottomSheet(), listener);
+        alarmAdapter = new AlarmAdapter(dailyAlarmList, getActivity(), getParentFragmentManager(), editDatetimeBottomSheet);
         recyclerView.setAdapter(alarmAdapter);
         return view;
     }

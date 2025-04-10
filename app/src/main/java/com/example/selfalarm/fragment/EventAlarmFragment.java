@@ -19,16 +19,16 @@ public class EventAlarmFragment extends Fragment {
     private List<Alarm> eventAlarmList;
     private AlarmAdapter alarmAdapter;
 
-    private EditDatetimeBottomSheet.OnAlarmUpdatedListener listener;
+    private EditDatetimeBottomSheet editDatetimeBottomSheet;
 
     public EventAlarmFragment() {
         // Required empty public constructor
     }
 
-    public static EventAlarmFragment newInstance(List<Alarm> eventAlarms, EditDatetimeBottomSheet.OnAlarmUpdatedListener listener) {
+    public static EventAlarmFragment newInstance(List<Alarm> eventAlarms, EditDatetimeBottomSheet editDatetimeBottomSheet) {
         EventAlarmFragment fragment = new EventAlarmFragment();
         fragment.eventAlarmList = eventAlarms;
-        fragment.listener = listener;
+        fragment.editDatetimeBottomSheet = editDatetimeBottomSheet;
         return fragment;
     }
 
@@ -37,7 +37,7 @@ public class EventAlarmFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_alarm_list, container, false);
         RecyclerView recyclerView = view.findViewById(R.id.rvAlarmList);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        alarmAdapter = new AlarmAdapter(eventAlarmList, getActivity(), getParentFragmentManager(), new EditDatetimeBottomSheet(), listener);
+        alarmAdapter = new AlarmAdapter(eventAlarmList, getActivity(), getParentFragmentManager(), editDatetimeBottomSheet);
         recyclerView.setAdapter(alarmAdapter);
         return view;
     }

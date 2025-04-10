@@ -15,7 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.selfalarm.R;
-import com.example.selfalarm.activity.ContactDetailActivity;
+import com.example.selfalarm.activity.phoneActivity.ContactDetailActivity;
 import com.example.selfalarm.dao.CallLogDao;
 import com.example.selfalarm.model.CallLog;
 import com.example.selfalarm.model.Contact;

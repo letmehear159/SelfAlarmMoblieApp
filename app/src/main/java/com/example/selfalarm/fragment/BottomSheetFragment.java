@@ -45,8 +45,6 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle saveInstanceState) {
         View view = inflater.inflate(R.layout.bottom_sheet_alarm, container, false);
         addFunctionForButton(view);
-        swSetRepeat = view.findViewById(R.id.swSetRepeat);
-        relativeLayout = view.findViewById(R.id.relativeLayout); // Chứa DatePicker
         // Thiết lập listener cho SwitchMaterial
         swSetRepeat.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
@@ -91,7 +89,8 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
 
     public void addFunctionForButton(View view) {
         btnSave = view.findViewById(R.id.btnSave);
-
+        swSetRepeat = view.findViewById(R.id.swSetRepeat);
+        relativeLayout = view.findViewById(R.id.relativeLayout); // Chứa DatePicker
         btnCancel = view.findViewById(R.id.btnCancel);
 
         btnRemove = view.findViewById(R.id.btnDelete);

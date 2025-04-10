@@ -15,6 +15,7 @@ import com.example.selfalarm.R;
 import com.example.selfalarm.activity.alarmActivity.AlarmActivity;
 import com.example.selfalarm.activity.messageActivity.MessageActivity;
 import com.example.selfalarm.activity.musicActivity.MusicActivity;
+import com.example.selfalarm.activity.phoneActivity.PhoneCallActivity;
 
 public class MenuActivity extends AppCompatActivity {
 

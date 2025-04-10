@@ -49,13 +49,12 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.View
             MyMediaPlayer.currentIndex = holder.getAdapterPosition();
 
             Intent intent = new Intent(context, MusicPlayerActivity.class);
-            intent.putExtra("RESOURCE_ID", songData.getResourceId()); // Gửi ID của file trong raw
+            intent.putExtra("RESOURCE_ID", songData.getResourceId());
+            intent.putExtra("SONGS_LIST", songsList); // Gửi danh sách bài hát
+            intent.putExtra("POSITION", holder.getAdapterPosition()); // Gửi vị trí hiện tại
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
         });
-
-
-
     }
 
     private void playMusic(String path) {

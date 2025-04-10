@@ -1,9 +1,15 @@
-<TextView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/tvChatMessage"
-    android:layout_width="wrap_content"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="8dp"
-    android:background="@drawable/bg_chat_received"
-    android:textColor="@android:color/black"
-    android:layout_gravity="start"/>
+    android:gravity="start">
+
+    <TextView
+        android:id="@+id/tvChatMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:background="@drawable/bg_chat_received"
+        android:textColor="@android:color/black"
+        android:textSize="16sp" />
+</LinearLayout>

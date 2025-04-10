@@ -9,6 +9,15 @@
     <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
     <uses-permission android:name="android.permission.READ_CALENDAR" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" /> <!-- Nếu cần chạy lâu dài -->
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
+    <uses-feature
+        android:name="android.hardware.telephony"
+        android:required="false" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -31,15 +40,35 @@
         <activity android:name=".activity.alarmActivity.AlarmRingActivity" />
         <activity android:name=".activity.musicActivity.MusicActivity" />
         <activity android:name=".activity.musicActivity.MusicPlayerActivity" />
-
         <activity android:name=".activity.messageActivity.MessageActivity" />
         <activity android:name=".activity.messageActivity.NewMessageActivity" />
-        <activity android:name=".activity.messageActivity.DetailMessageActivity" />
 
-        <receiver android:name=".broadcast_receiver.AlarmReceiver"
+        <receiver
+            android:name=".broadcast_receiver.AlarmReceiver"
             android:enabled="true"
             android:exported="false">
         </receiver>
+        <activity
+            android:name=".activity.messageActivity.DetailMessageActivity"
+            android:windowSoftInputMode="adjustResize" />
+
+        <receiver
+            android:name=".activity.messageActivity.SmsReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter android:priority="999">
+                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name=".activity.messageActivity.SmsService"
+            android:exported="false" />
+
+        <provider
+            android:name=".activity.messageActivity.SmsContentProvider"
+            android:authorities="com.example.selfalarm.smsprovider"
+            android:exported="false" />
     </application>
 
 </manifest>
